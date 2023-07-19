@@ -125,6 +125,19 @@ bool isStable(const Card initialCards[], const Card sortedCards[], const int car
 }
 
 
+bool isStableWithStableSortedCards(const Card stableSortedCards[], const Card sortedCards[], const int cardNum) {
+    // ソート前後で安定にソートされている場合にtrueを返す
+    // 安定ソートされたソート結果を使うことで高速化する
+
+    for (int i=0; i<cardNum; i++) {
+        if (stableSortedCards[i].getSuit() != sortedCards[i].getSuit()) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
 int main() {
     // 配列のサイズの取得
     int N;
@@ -152,14 +165,10 @@ int main() {
 
     // 結果表示
     printCards(bubbleSortCards, N);
-    if (isStable(initialCards, bubbleSortCards, N)) {
-        std::cout << "Stable" << std::endl;
-    } else {
-        std::cout << "Not stable" << std::endl;
-    }
+    std::cout << "Stable" << std::endl;
 
     printCards(selectionSortCards, N);
-    if (isStable(initialCards, selectionSortCards, N)) {
+    if (isStableWithStableSortedCards(bubbleSortCards, selectionSortCards, N)) {
         std::cout << "Stable" << std::endl;
     } else {
         std::cout << "Not stable" << std::endl;
