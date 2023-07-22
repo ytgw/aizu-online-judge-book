@@ -10,7 +10,8 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    int s[n];
+    // 高速化のための番兵用に配列サイズを増やす
+    int s[n+1];
     for (int i=0; i<n; i++) {
         std::cin >> s[i];
         if (!(0 <= s[i] && s[i] <= 1000000000)) {
@@ -38,12 +39,13 @@ int main() {
     // 結果算出
     int count = 0;
     for (int ti=0; ti<q; ti++) {
-        for (int si=0; si<n; si++) {
-            if (s[si] == t[ti]) {
-                count++;
-                break;
-            }
-        }
+        // 番兵を使うことで比較処理を減らす
+        s[n] = t[ti];
+
+        int si = 0;
+        while (s[si] != t[ti]) si++;
+
+        if (si < n) count++;
     }
 
     // 結果表示
